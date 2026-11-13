@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#5b5bf0">
+<title>TermeTrainer – Nachhilfe für die 1. Schulaufgabe</title>
+<style>
+  :root{
+    --bg:#f4f5fb; --surface:#ffffff; --surface2:#eef0f7; --ink:#14162b; --muted:#6b7090; --line:#e3e6f0;
+    --brand:#5b5bf0; --brand2:#8b5cf6; --brand-soft:#ecebff;
+    --green:#16a34a; --green-soft:#dcfce7; --amber:#f59e0b; --amber-soft:#fef3c7; --red:#ef4444; --red-soft:#fee2e2;
+    --fire:#ff6a00; --radius:20px; --shadow:0 1px 2px rgba(20,22,43,.04),0 8px 24px rgba(20,22,43,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0e0f1a; --surface:#181a2b; --surface2:#22253a; --ink:#eef0ff; --muted:#9aa0c3; --line:#2b2f48;
+      --brand-soft:#2a2a5a; --green-soft:#143322; --amber-soft:#3a2d0c; --red-soft:#3a1717;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3);
+    }
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit}
+  .app{max-width:720px;margin:0 auto;min-height:100vh;padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+
+  /* App-Bar */
+  .appbar{position:sticky;top:0;z-index:20;backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);background:color-mix(in srgb,var(--bg) 82%,transparent);padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:10px}
+  .appbar h1{font-size:1.1rem;margin:0;flex:1;font-weight:800;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .iconbtn{width:40px;height:40px;border-radius:12px;border:none;background:var(--surface);color:var(--ink);font-size:1.2rem;box-shadow:var(--shadow);cursor:pointer;display:grid;place-items:center}
+  .pill{display:inline-flex;align-items:center;gap:4px;background:var(--surface);border-radius:999px;padding:6px 11px;font-weight:700;font-size:.88rem;box-shadow:var(--shadow);white-space:nowrap}
+
+  /* Home */
+  .hero{margin:6px 16px 18px;padding:22px 20px;border-radius:26px;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 12px 30px rgba(91,91,240,.35);position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.12)}
+  .hero small{opacity:.85;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:.72rem}
+  .hero h2{margin:4px 0 2px;font-size:1.5rem;letter-spacing:-.02em}
+  .hero p{margin:0;opacity:.9;font-size:.92rem}
+  .hero .stats{display:flex;gap:10px;margin-top:16px}
+  .hero .stat{background:rgba(255,255,255,.18);border-radius:14px;padding:8px 12px;flex:1}
+  .hero .stat b{display:block;font-size:1.25rem}
+  .hero .stat span{font-size:.75rem;opacity:.9}
+  .section-label{margin:0 20px 10px;font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;padding:0 16px}
+  @media(min-width:560px){.grid{grid-template-columns:1fr 1fr}}
+  .tcard{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center;cursor:pointer;border:none;text-align:left;color:inherit;transition:transform .15s}
+  .tcard:active{transform:scale(.98)}
+  .tcard .meta{flex:1;min-width:0}
+  .tcard h3{margin:0 0 4px;font-size:1rem;letter-spacing:-.01em}
+  .tcard .sub{font-size:.82rem;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+  .tag-retry{color:var(--amber);font-weight:700}
+  .ring{width:54px;height:54px;flex:0 0 54px;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .lbl{position:absolute;inset:0;display:grid;place-items:center;font-size:.8rem;font-weight:800}
+
+  /* Thema */
+  .topic-top{padding:0 16px}
+  .scorecard{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+  .kpi b{display:block;font-size:1.3rem;letter-spacing:-.02em}
+  .kpi span{font-size:.72rem;color:var(--muted);font-weight:600}
+  .streakbar{display:flex;gap:6px;margin-top:14px;align-items:center}
+  .streakbar .seg{flex:1;height:8px;border-radius:99px;background:var(--surface2);transition:background .3s}
+  .streakbar .seg.on{background:linear-gradient(90deg,#ffb100,var(--fire))}
+  .streakbar .fl{font-size:1.1rem}
+  .streakhint{font-size:.78rem;color:var(--muted);margin-top:6px}
+  details.merke{margin-top:12px;background:var(--brand-soft);border-radius:16px;padding:12px 14px;font-size:.92rem}
+  details.merke summary{cursor:pointer;font-weight:700;color:var(--brand);list-style:none}
+  details.merke summary::-webkit-details-marker{display:none}
+  details.merke b{color:var(--brand)}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:14px 16px 4px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;border:none;border-radius:999px;padding:8px 14px;background:var(--surface);color:var(--ink);font-weight:600;font-size:.85rem;box-shadow:var(--shadow);cursor:pointer}
+  .chip.active{background:var(--ink);color:var(--bg)}
+  .list{padding:8px 16px 0}
+  .lvl{margin:16px 4px 8px;display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .dot{width:10px;height:10px;border-radius:50%}
+  .d1{background:var(--green)} .d2{background:var(--amber)} .d3{background:var(--red)}
+  .task{background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);border:2px solid transparent;transition:border-color .3s,background .3s;animation:in .3s ease}
+  @keyframes in{from{opacity:0;transform:translateY(6px)}}
+  .task.right{border-color:color-mix(in srgb,var(--green) 45%,transparent)}
+  .task.retry{border-color:color-mix(in srgb,var(--amber) 60%,transparent)}
+  .task-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .tnum{font-size:.78rem;font-weight:800;color:var(--muted)}
+  .lvlbadge{font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:999px}
+  .lb1{background:var(--green-soft);color:var(--green)} .lb2{background:var(--amber-soft);color:var(--amber)} .lb3{background:var(--red-soft);color:var(--red)}
+  .state{margin-left:auto;font-size:.75rem;font-weight:800;padding:3px 9px;border-radius:999px}
+  .state.right{background:var(--green-soft);color:var(--green)}
+  .state.retry{background:var(--amber-soft);color:var(--amber)}
+  .q{font-size:1.02rem}
+  .math{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.06em}
+  .btn{border:none;border-radius:14px;padding:12px 16px;font-weight:700;font-size:.95rem;cursor:pointer;transition:transform .1s,opacity .2s}
+  .btn:active{transform:scale(.97)}
+  .btn.primary{background:var(--brand);color:#fff;width:100%;margin-top:12px}
+  .btn.ghost{background:var(--surface2);color:var(--ink);width:100%;margin-top:12px}
+  .sol{display:none;margin-top:12px;background:var(--surface2);border-radius:16px;padding:14px;font-size:.95rem}
+  .sol.show{display:block;animation:in .25s ease}
+  .sol .ans{font-weight:800;color:var(--green)}
+  .rate{margin-top:12px}
+  .rate p{margin:0 0 8px;font-weight:700;font-size:.9rem}
+  .rate .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn.ok{background:var(--green);color:#fff} .btn.no{background:var(--red);color:#fff}
+  .retrynote{margin-top:10px;font-size:.85rem;background:var(--amber-soft);color:var(--ink);border-radius:12px;padding:10px 12px}
+  .empty{text-align:center;color:var(--muted);padding:30px 10px}
+  .reset{display:block;margin:20px auto 0;background:none;border:none;color:var(--muted);font-weight:600;cursor:pointer;font-size:.85rem}
+
+  /* Toast & Feier */
+  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:700;font-size:.9rem;z-index:60;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);max-width:90vw;text-align:center}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  #party{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+  .burst{position:fixed;left:50%;top:42%;background:var(--surface);color:var(--ink);border-radius:28px;padding:24px 30px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop 2.8s ease forwards;z-index:51;min-width:240px}
+  .burst .big{font-size:3.6rem;line-height:1;white-space:nowrap}
+  .burst .txt{font-weight:900;font-size:1.25rem;margin-top:8px;background:linear-gradient(90deg,#ffb100,var(--fire));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .burst .sub{color:var(--muted);font-size:.9rem}
+  @keyframes pop{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}14%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}24%{transform:translate(-50%,-50%) scale(1)}82%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.95)}}
+  .emoji{position:absolute;top:-60px;font-size:2.3rem;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(380deg)}}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="appbar">
+    <button class="iconbtn hidden" id="back" aria-label="Zurück">‹</button>
+    <h1 id="title">TermeTrainer</h1>
+    <span class="pill" id="barPts">⭐ 0</span>
+    <span class="pill" id="barFl">🔥 0</span>
+  </div>
+  <div id="view"></div>
+</div>
+<div id="party"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const topics = [
+{
+  title:"1. Termwerte berechnen",
+  merke:"<b>Merke:</b> Setze für die Variable die Zahl ein – negative Zahlen immer in Klammern! Dann gilt: Klammer vor Potenz vor Punkt vor Strich.",
+  tasks:[
+    [1,"Berechne den Termwert von <span class='math'>T(x) = 5x + 3</span> für x = 4.","5 · 4 + 3 = 20 + 3 = <span class='ans'>23</span>"],
+    [1,"Berechne <span class='math'>T(x) = 2x − 7</span> für x = −3.","2 · (−3) − 7 = −6 − 7 = <span class='ans'>−13</span>"],
+    [1,"Berechne <span class='math'>T(a) = a² + 1</span> für a = 3.","3² + 1 = 9 + 1 = <span class='ans'>10</span>"],
+    [1,"Berechne <span class='math'>T(x) = 12 − 3x</span> für x = −2.","12 − 3 · (−2) = 12 + 6 = <span class='ans'>18</span>"],
+    [2,"Berechne <span class='math'>T(x) = 3x² − 2x</span> für x = −2.","3 · (−2)² − 2 · (−2) = 3 · 4 + 4 = 12 + 4 = <span class='ans'>16</span>"],
+    [2,"Berechne <span class='math'>T(x) = (x + 1) · (x − 2)</span> für x = −½.","(−½ + 1) · (−½ − 2) = ½ · (−5⁄2) = <span class='ans'>−5⁄4 = −1,25</span>"],
+    [2,"Berechne <span class='math'>T(a; b) = 2a − 3b + ab</span> für a = −2 und b = 3.","2 · (−2) − 3 · 3 + (−2) · 3 = −4 − 9 − 6 = <span class='ans'>−19</span>"],
+    [3,"Erstelle eine Wertetabelle für <span class='math'>T(x) = x² − 4x</span> mit x ∈ {−1; 0; 1; 2; 3; 4; 5}. Was fällt dir auf?","x = −1: 5 · x = 0: 0 · x = 1: −3 · x = 2: −4 · x = 3: −3 · x = 4: 0 · x = 5: 5<br><span class='ans'>Auffällig:</span> Die Werte sind symmetrisch um x = 2. Dort ist der kleinste Wert (−4)."],
+    [3,"Berechne <span class='math'>T(x) = −x² + 2 · (x − 3)²</span> für x = −1.","−(−1)² + 2 · (−1 − 3)² = −1 + 2 · (−4)² = −1 + 2 · 16 = −1 + 32 = <span class='ans'>31</span><br>Achtung: −x² bedeutet −(x²), also −1 und nicht +1!"],
+    [3,"Für welche Zahlen x ∈ {−2; −1; 0; 1; 2; 3} hat der Term <span class='math'>T(x) = x² − x − 2</span> den Wert 0?","T(−2) = 4 · T(−1) = 0 · T(0) = −2 · T(1) = −2 · T(2) = 0 · T(3) = 4<br><span class='ans'>x = −1 und x = 2</span>"]
+  ]
+},
+{
+  title:"2. Terme aufstellen",
+  merke:"<b>Merke:</b> Summe → +, Differenz → −, Produkt → ·, Quotient → :. „Das Doppelte“ = 2 · …, „vermehrt um“ = +, „vermindert um“ = −. Lege zuerst fest, wofür die Variable steht!",
+  tasks:[
+    [1,"Stelle einen Term auf: Das Dreifache einer Zahl x, vermehrt um 7.","<span class='ans'>3x + 7</span>"],
+    [1,"Stelle einen Term auf: Die Differenz aus einer Zahl x und 5 wird mit 2 multipliziert.","<span class='ans'>2 · (x − 5)</span> – die Klammer ist wichtig, weil zuerst die Differenz gebildet wird."],
+    [1,"Ein Rechteck hat die Länge a und die Breite b. Gib einen Term für den Umfang an.","<span class='ans'>U = 2a + 2b</span> (oder 2 · (a + b))"],
+    [1,"Ein Heft kostet 1,50 €. Gib einen Term für den Preis von n Heften an.","<span class='ans'>1,50 · n</span> (in €)"],
+    [2,"Eine Familie mit x Personen geht ins Kino. Eintritt: 8 € pro Person. Jede Person kauft eine Tüte Popcorn für 4,50 €. Gib einen Term für die Gesamtkosten an und vereinfache ihn.","8x + 4,5x = <span class='ans'>12,5x</span> (in €)"],
+    [2,"Ein Handyvertrag kostet 9,99 € Grundgebühr pro Monat und 0,09 € pro Gesprächsminute. Stelle einen Term für die Monatskosten bei m Minuten auf und berechne die Kosten für 120 Minuten.","Term: <span class='ans'>9,99 + 0,09m</span><br>m = 120: 9,99 + 0,09 · 120 = 9,99 + 10,80 = <span class='ans'>20,79 €</span>"],
+    [2,"Die Seiten eines Quadrats mit der Seitenlänge s werden um 3 cm verlängert. Gib einen Term für den Flächeninhalt des neuen Quadrats an.","<span class='ans'>A = (s + 3)²</span> (in cm²)"],
+    [3,"Aus Streichhölzern wird eine Reihe von Quadraten gelegt: 1 Quadrat braucht 4 Hölzer, 2 Quadrate brauchen 7, 3 Quadrate brauchen 10 Hölzer. Stelle einen Term für n Quadrate auf. Wie viele Hölzer braucht man für 50 Quadrate?","Für jedes weitere Quadrat kommen 3 Hölzer dazu, am Anfang 1 zusätzliches.<br>Term: <span class='ans'>3n + 1</span><br>n = 50: 3 · 50 + 1 = <span class='ans'>151 Hölzer</span>"],
+    [3,"Ein Rechteck ist 2x lang und x breit. Aus einer Ecke wird ein Quadrat mit der Seitenlänge 3 herausgeschnitten. Stelle einen Term für den Flächeninhalt der Restfigur auf.","Rechteck: 2x · x = 2x², Quadrat: 3² = 9<br><span class='ans'>A = 2x² − 9</span>"],
+    [3,"Ein Taxi kostet 3,50 € Grundpreis und 2,10 € pro km. Ab dem 11. km kostet jeder weitere km nur noch 1,80 €. Stelle einen Term für den Preis bei x km (x > 10) auf und vereinfache.","3,50 + 2,10 · 10 + 1,80 · (x − 10)<br>= 3,50 + 21 + 1,8x − 18<br>= <span class='ans'>6,50 + 1,8x</span> (in €)<br>Probe x = 10: 6,50 + 18 = 24,50 € ✓"]
+  ]
+},
+{
+  title:"3. Aussagen über Terme",
+  merke:"<b>Merke:</b> Eine Aussage „für alle x“ ist schon falsch, wenn du <b>ein einziges Gegenbeispiel</b> findest. Um zu zeigen, dass sie immer stimmt, brauchst du eine allgemeine Begründung. Gute Testzahlen: 0, 1, negative Zahlen, Brüche.",
+  tasks:[
+    [1,"Wahr oder falsch? „Für x = 0 hat der Term x + 5 den Wert 5.“","<span class='ans'>Wahr</span>, denn 0 + 5 = 5."],
+    [1,"Wahr oder falsch? „Für jede natürliche Zahl x ist der Wert von 2x eine gerade Zahl.“","<span class='ans'>Wahr</span>, denn das Doppelte einer natürlichen Zahl ist immer durch 2 teilbar."],
+    [1,"Wahr oder falsch? „Der Term x² ist niemals negativ.“","<span class='ans'>Wahr</span>: Eine Zahl mal sich selbst ist immer ≥ 0 (z. B. (−3)² = 9, 0² = 0)."],
+    [1,"Wahr oder falsch? „Wird x größer, so wird auch der Wert von 10 − x größer.“","<span class='ans'>Falsch</span>: Je größer x, desto <b>kleiner</b> wird 10 − x. Beispiel: x = 1 → 9, x = 5 → 5."],
+    [2,"Wahr oder falsch? „Der Term x² + 1 kann den Wert 0 annehmen.“","<span class='ans'>Falsch</span>: x² ≥ 0, also ist x² + 1 ≥ 1. Der kleinste Wert ist 1 (bei x = 0)."],
+    [2,"Wahr oder falsch? „Die Terme 2x + 3 und 3x + 2 haben für jede Zahl x denselben Wert.“","<span class='ans'>Falsch</span>. Gegenbeispiel x = 0: 2 · 0 + 3 = 3, aber 3 · 0 + 2 = 2.<br>(Nur für x = 1 sind beide gleich, nämlich 5.)"],
+    [2,"Wahr oder falsch? „Der Term −x hat immer einen negativen Wert.“","<span class='ans'>Falsch</span>. Gegenbeispiel x = −3: −(−3) = 3 ist positiv. (Für x = 0 ist der Wert 0.)"],
+    [3,"Welchen kleinsten Wert kann der Term <span class='math'>(x − 3)² + 2</span> annehmen? Für welches x?","(x − 3)² ist nie negativ und wird 0 für x = 3.<br>Kleinster Wert: <span class='ans'>2 bei x = 3</span>"],
+    [3,"Wahr oder falsch? „Für alle Zahlen x gilt: x² > x.“","<span class='ans'>Falsch</span>. Gegenbeispiel x = ½: (½)² = ¼, und ¼ < ½.<br>Auch x = 0 und x = 1 sind Gegenbeispiele (dort gilt x² = x)."],
+    [3,"Begründe mit einem Term: Die Summe dreier aufeinanderfolgender natürlicher Zahlen ist immer durch 3 teilbar.","Die Zahlen heißen n, n + 1, n + 2.<br>n + (n + 1) + (n + 2) = 3n + 3 = <span class='ans'>3 · (n + 1)</span><br>Das ist ein Vielfaches von 3, also immer durch 3 teilbar. ✓"]
+  ]
+},
+{
+  title:"4. Rechengesetze (AG, KG, DG)",
+  merke:"<b>Merke:</b> <b>KG</b> (Kommutativgesetz): a + b = b + a, a · b = b · a · <b>AG</b> (Assoziativgesetz): (a + b) + c = a + (b + c) · <b>DG</b> (Distributivgesetz): a · (b + c) = a · b + a · c. Vorsicht bei Minus vor der Klammer: Alle Vorzeichen drehen sich um!",
+  tasks:[
+    [1,"Rechne geschickt: 25 · 17 · 4","Mit KG und AG: (25 · 4) · 17 = 100 · 17 = <span class='ans'>1700</span>"],
+    [1,"Rechne geschickt: 37 + 48 + 63","Mit KG und AG: (37 + 63) + 48 = 100 + 48 = <span class='ans'>148</span>"],
+    [1,"Multipliziere aus: 4 · (x + 3)","DG: 4 · x + 4 · 3 = <span class='ans'>4x + 12</span>"],
+    [1,"Welches Rechengesetz ist das? a · b = b · a","<span class='ans'>Kommutativgesetz der Multiplikation</span> (Vertauschungsgesetz)"],
+    [2,"Rechne geschickt mit dem DG: 7 · 98","7 · (100 − 2) = 700 − 14 = <span class='ans'>686</span>"],
+    [2,"Multipliziere aus: −3 · (2a − 5b + 1)","−3 · 2a − 3 · (−5b) − 3 · 1 = <span class='ans'>−6a + 15b − 3</span>"],
+    [2,"Klammere aus: 12x + 18y","Größter gemeinsamer Faktor ist 6: <span class='ans'>6 · (2x + 3y)</span>"],
+    [3,"Klammere so viel wie möglich aus: 15a²b − 10ab²","Gemeinsam: 5, a und b → <span class='ans'>5ab · (3a − 2b)</span><br>Probe: 5ab · 3a = 15a²b ✓, 5ab · 2b = 10ab² ✓"],
+    [3,"Multipliziere aus und fasse zusammen: (x + 2) · (x − 5)","Jedes mit jedem: x² − 5x + 2x − 10 = <span class='ans'>x² − 3x − 10</span>"],
+    [3,"Vereinfache: (2a − 3) · (a + 4) − 2a · (a + 1)","(2a² + 8a − 3a − 12) − (2a² + 2a)<br>= 2a² + 5a − 12 − 2a² − 2a<br>= <span class='ans'>3a − 12</span>"]
+  ]
+},
+{
+  title:"5. Terme mit Potenzen",
+  merke:"<b>Merke:</b> a · a · a = a³ · Gleiche Basis multiplizieren → Exponenten addieren: aᵐ · aⁿ = aᵐ⁺ⁿ · (a · b)ⁿ = aⁿ · bⁿ · Achtung: (−3)² = 9, aber −3² = −9! Nur <b>gleichartige</b> Glieder (gleiche Variable, gleicher Exponent) darf man addieren.",
+  tasks:[
+    [1,"Schreibe als Potenz: x · x · x · x","<span class='ans'>x⁴</span>"],
+    [1,"Berechne: 2⁵","2 · 2 · 2 · 2 · 2 = <span class='ans'>32</span>"],
+    [1,"Berechne und vergleiche: (−3)² und −3²","(−3)² = (−3) · (−3) = <span class='ans'>9</span><br>−3² = −(3 · 3) = <span class='ans'>−9</span>"],
+    [1,"Vereinfache: a³ · a²","Exponenten addieren: <span class='ans'>a⁵</span>"],
+    [2,"Vereinfache: 3x² · 4x³","3 · 4 = 12, x² · x³ = x⁵ → <span class='ans'>12x⁵</span>"],
+    [2,"Vereinfache: (2a)³","2³ · a³ = <span class='ans'>8a³</span>"],
+    [2,"Fasse zusammen: 5x² + 3x − 2x² + x³ − x","x³ + (5x² − 2x²) + (3x − x) = <span class='ans'>x³ + 3x² + 2x</span>"],
+    [3,"Vereinfache: (−2x²)³","(−2)³ · (x²)³ = −8 · x⁶ = <span class='ans'>−8x⁶</span>"],
+    [3,"Vereinfache: 2a²b · (−3ab³) · 0,5b","Zahlen: 2 · (−3) · 0,5 = −3<br>a: a² · a = a³, b: b · b³ · b = b⁵<br>→ <span class='ans'>−3a³b⁵</span>"],
+    [3,"Vereinfache: (x²)³ · x − 3x⁴ · x³ + (2x)² · x⁵","x⁶ · x = x⁷ · 3x⁴ · x³ = 3x⁷ · 4x² · x⁵ = 4x⁷<br>x⁷ − 3x⁷ + 4x⁷ = <span class='ans'>2x⁷</span>"]
+  ]
+},
+{
+  title:"6. Vereinfachen & Zusammenfassen",
+  merke:"<b>Merke:</b> Nur gleichartige Glieder zusammenfassen (3a + 5a = 8a, aber 3a + 5b bleibt!). Minus vor der Klammer: Klammer weg und alle Vorzeichen umdrehen. Bei verschachtelten Klammern von innen nach außen arbeiten.",
+  tasks:[
+    [1,"Fasse zusammen: 3a + 5a","<span class='ans'>8a</span>"],
+    [1,"Fasse zusammen: 7x − 2x + x","7 − 2 + 1 = 6 → <span class='ans'>6x</span>"],
+    [1,"Fasse zusammen: 4a + 3b + 2a − b","(4a + 2a) + (3b − b) = <span class='ans'>6a + 2b</span>"],
+    [1,"Vereinfache: 2 · x · 5","2 · 5 · x = <span class='ans'>10x</span>"],
+    [2,"Vereinfache: 5x − (2x − 3)","5x − 2x + 3 = <span class='ans'>3x + 3</span>"],
+    [2,"Vereinfache: 3 · (a + 2) − 2 · (a − 1)","3a + 6 − 2a + 2 = <span class='ans'>a + 8</span>"],
+    [2,"Fasse zusammen: 2x² − 3x + 5x² + 7x − 4","(2x² + 5x²) + (−3x + 7x) − 4 = <span class='ans'>7x² + 4x − 4</span>"],
+    [3,"Vereinfache: 4 − [2x − (3 − x)] + 5x","Innen: 2x − (3 − x) = 2x − 3 + x = 3x − 3<br>4 − (3x − 3) + 5x = 4 − 3x + 3 + 5x = <span class='ans'>2x + 7</span>"],
+    [3,"Vereinfache: 3a · (2a − b) − a · (a + 4b)","6a² − 3ab − a² − 4ab = <span class='ans'>5a² − 7ab</span>"],
+    [3,"Vereinfache: ½ · (4x − 6) − ⅓ · (9x + 3) + 2x","(2x − 3) − (3x + 1) + 2x<br>= 2x − 3 − 3x − 1 + 2x = <span class='ans'>x − 4</span>"]
+  ]
+}
+];
+topics.push({
+  title:"7. Tafel-Aufgaben: Potenzen & Klammern",
+  merke:"<b>Merke:</b> 3a = a + a + a (Summe), aber a³ = a · a · a (Produkt). g⁵ + g⁵ = 2g⁵ (zusammenfassen), aber g⁵ · g⁵ = g¹⁰ (Exponenten addieren). Beim Dividieren gleicher Basis werden die Exponenten subtrahiert: g⁵ : g = g⁴. Bei (a + b) : c wird <b>jedes</b> Glied geteilt.",
+  tasks:[
+    [1,"Schreibe 3a als Summe und a³ als Produkt. Was ist der Unterschied?","3a = <span class='ans'>a + a + a</span> · a³ = <span class='ans'>a · a · a</span><br>3a ist das Dreifache von a, a³ ist a dreimal mit sich selbst multipliziert. Für a = 2 gilt 3a = 6, aber a³ = 8."],
+    [1,"Fasse zusammen: g⁵ + g⁵","Zwei gleiche Glieder: <span class='ans'>2g⁵</span> (nicht g¹⁰!)"],
+    [1,"Vereinfache: g⁵ · g⁵","Exponenten addieren: <span class='ans'>g¹⁰</span>"],
+    [1,"Berechne und kürze: 66 · ¾","66 · 3 ⁄ 4 = 198⁄4 = <span class='ans'>99⁄2 = 49,5</span>"],
+    [2,"Multipliziere aus: g³ · (g² + 1)","g³ · g² + g³ · 1 = <span class='ans'>g⁵ + g³</span>"],
+    [2,"Vereinfache: g⁵ : g","(g · g · g · g · g) : g = g · g · g · g = <span class='ans'>g⁴</span>"],
+    [2,"Vereinfache: (5 + 10g) : 5","5 : 5 + 10g : 5 = <span class='ans'>1 + 2g</span>"],
+    [3,"Fasse zusammen und schreibe als Potenz eines Produkts: 5 · n² · n · w · e · w² · e² · 2","Sortieren (KG): 5 · 2 · n² · n · w · w² · e · e²<br>= 10n³w³e³ = <span class='ans'>10 · (n · w · e)³</span>"],
+    [3,"Multipliziere aus: 2x² · (3x³ − 4x + 1)","2x² · 3x³ − 2x² · 4x + 2x² · 1 = <span class='ans'>6x⁵ − 8x³ + 2x²</span>"],
+    [3,"Vereinfache: (12g⁴ + 8g²) : 4 − g² · (3g² − 1)","(12g⁴ + 8g²) : 4 = 3g⁴ + 2g²<br>g² · (3g² − 1) = 3g⁴ − g²<br>3g⁴ + 2g² − 3g⁴ + g² = <span class='ans'>3g²</span>"]
+  ]
+});
+
+
+
+
+const LV = {1:"Grundlagen",2:"Fortgeschritten",3:"Profi"};
+const KEY = "termeTrainer_v3";
+// Status je Aufgabe: null = offen, "right" = richtig, "retry" = falsch → muss wiederholt werden
+let state;
+const fresh = () => topics.map(t => ({st:t.tasks.map(()=>null), tries:t.tasks.map(()=>0), streak:0, flames:0}));
+try { state = JSON.parse(localStorage.getItem(KEY)); } catch(e){ state = null; }
+if(!Array.isArray(state) || state.length !== topics.length) state = fresh();
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} };
+
+const $ = id => document.getElementById(id);
+let current = null, filter = "all";
+
+const pts = i => state[i].st.filter(x => x==="right").length;
+const retries = i => state[i].st.filter(x => x==="retry").length;
+
+function bar(){
+  $('barPts').textContent = "⭐ " + state.reduce((s,_,i)=>s+pts(i),0);
+  $('barFl').textContent = "🔥 " + state.reduce((s,x)=>s+x.flames,0);
+}
+
+function ring(p, color){
+  const r=22, c=2*Math.PI*r, off=c*(1-p);
+  return `<svg width="54" height="54"><circle cx="27" cy="27" r="${r}" fill="none" stroke="var(--surface2)" stroke-width="6"/>
+    <circle cx="27" cy="27" r="${r}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset .5s"/></svg>`;
+}
+
+/* ---------- Startseite ---------- */
+function home(){
+  current = null;
+  $('back').classList.add('hidden');
+  $('title').textContent = "TermeTrainer";
+  const total = topics.reduce((s,t)=>s+t.tasks.length,0);
+  const tp = state.reduce((s,_,i)=>s+pts(i),0), tf = state.reduce((s,x)=>s+x.flames,0), tr = state.reduce((s,_,i)=>s+retries(i),0);
+  let h = `<div class="hero"><small>1. Schulaufgabe · 20.11.26</small><h2>Terme meistern 💪</h2>
+    <p>Rechnen, Lösung checken, ehrlich bewerten. Falsche Aufgaben kommen zur Wiederholung zurück.</p>
+    <div class="stats"><div class="stat"><b>${tp}/${total}</b><span>Punkte</span></div>
+    <div class="stat"><b>🔥 ${tf}</b><span>Flammen</span></div>
+    <div class="stat"><b>🔁 ${tr}</b><span>Wiederholen</span></div></div></div>
+    <div class="section-label">Themen</div><div class="grid">`;
+  topics.forEach((t,i)=>{
+    const p = pts(i)/t.tasks.length, r = retries(i);
+    const col = p===1 ? 'var(--green)' : 'var(--brand)';
+    h += `<button class="tcard" onclick="openTopic(${i})">
+      <div class="ring">${ring(p,col)}<div class="lbl">${p===1?'✓':pts(i)}</div></div>
+      <div class="meta"><h3>${t.title.replace(/^\d+\.\s*/,'')}</h3>
+        <div class="sub"><span>⭐ ${pts(i)}/${t.tasks.length}</span>${state[i].flames?`<span>🔥 ${state[i].flames}</span>`:''}${r?`<span class="tag-retry">🔁 ${r} wiederholen</span>`:''}</div></div>
+      <span style="color:var(--muted);font-size:1.4rem">›</span></button>`;
+  });
+  h += `</div>`;
+  $('view').innerHTML = h;
+  bar();
+  window.scrollTo({top:0});
+}
+
+/* ---------- Themenseite ---------- */
+function openTopic(i){ current=i; filter = retries(i) ? "retry" : "all"; topicView(); window.scrollTo({top:0}); }
+
+function scorecard(){
+  const s = state[current], n = topics[current].tasks.length, k = s.streak % 5;
+  const segs = [0,1,2,3,4].map(j=>`<div class="seg ${j<k?'on':''}"></div>`).join('');
+  return `<div class="kpis">
+      <div class="kpi"><b>${pts(current)}/${n}</b><span>Punkte</span></div>
+      <div class="kpi"><b>${s.streak}</b><span>in Folge</span></div>
+      <div class="kpi"><b>🔥 ${s.flames}</b><span>Flammen</span></div>
+      <div class="kpi"><b>🔁 ${retries(current)}</b><span>Wiederholen</span></div></div>
+    <div class="streakbar">${segs}<span class="fl">🔥</span></div>
+    <div class="streakhint">${5-k} richtige in Folge bis zur nächsten Flamme</div>`;
+}
+
+function topicView(){
+  const t = topics[current], s = state[current];
+  $('back').classList.remove('hidden');
+  $('title').textContent = t.title.replace(/^\d+\.\s*/,'');
+  const open = s.st.filter(x=>x===null).length;
+  let h = `<div class="topic-top"><div class="scorecard" id="sc">${scorecard()}
+    <details class="merke"><summary>💡 Merke-Box anzeigen</summary><div style="margin-top:8px">${t.merke}</div></details></div></div>
+    <div class="chips">
+      <button class="chip ${filter==='all'?'active':''}" onclick="setFilter('all')">Alle (${t.tasks.length})</button>
+      <button class="chip ${filter==='open'?'active':''}" onclick="setFilter('open')">Offen (${open})</button>
+      <button class="chip ${filter==='retry'?'active':''}" onclick="setFilter('retry')">🔁 Wiederholen (${retries(current)})</button>
+      <button class="chip ${filter==='right'?'active':''}" onclick="setFilter('right')">✓ Geschafft (${pts(current)})</button>
+    </div><div class="list">`;
+  let last = 0, shown = 0;
+  t.tasks.forEach(([lvl,q,sol],i)=>{
+    const st = s.st[i];
+    if(filter==='open' && st!==null) return;
+    if(filter==='retry' && st!=='retry') return;
+    if(filter==='right' && st!=='right') return;
+    shown++;
+    if(lvl!==last){ h += `<div class="lvl"><span class="dot d${lvl}"></span>Stufe ${lvl} · ${LV[lvl]}</div>`; last=lvl; }
+    const badge = st==='right' ? `<span class="state right">✓ +1</span>` : st==='retry' ? `<span class="state retry">🔁 Wiederholen</span>` : '';
+    h += `<div class="task ${st||''}" id="task${i}">
+      <div class="task-head"><span class="tnum">AUFGABE ${i+1}</span><span class="lvlbadge lb${lvl}">${LV[lvl]}</span>${badge}</div>
+      <div class="q">${q}</div>
+      ${st==='retry' ? `<div class="retrynote">Beim letzten Mal falsch (${s.tries[i]}×). Rechne die Aufgabe noch einmal ohne zu spicken!</div>` : ''}
+      <button class="btn ${st==='right'?'ghost':'primary'}" id="btn${i}" onclick="toggle(${i})">Lösung zeigen</button>
+      <div class="sol" id="sol${i}"><b>Lösung</b><br>${sol}
+        ${st==='right' ? '' : `<div class="rate"><p>Hattest du es richtig?</p><div class="row">
+          <button class="btn ok" onclick="rate(${i},true)">✓ Richtig</button>
+          <button class="btn no" onclick="rate(${i},false)">✗ Falsch</button></div></div>`}
+      </div></div>`;
+  });
+  if(!shown){
+    const msg = filter==='retry' ? '🎉 Nichts zu wiederholen – stark!' : filter==='open' ? 'Keine offenen Aufgaben mehr.' : 'Noch keine Aufgaben hier.';
+    h += `<div class="empty">${msg}</div>`;
+  }
+  h += `<button class="reset" id="resetBtn" onclick="resetPage()">↺ Thema zurücksetzen</button></div>`;
+  $('view').innerHTML = h;
+  bar();
+}
+
+function setFilter(f){ filter=f; topicView(); }
+
+function toggle(i){
+  const sol = $('sol'+i), b = $('btn'+i), show = !sol.classList.contains('show');
+  sol.classList.toggle('show',show);
+  b.textContent = show ? 'Lösung verbergen' : 'Lösung zeigen';
+}
+
+function rate(i,ok){
+  const s = state[current];
+  s.tries[i]++;
+  if(ok){
+    const wasRetry = s.st[i]==='retry';
+    s.st[i]='right'; s.streak++;
+    if(s.streak%5===0){ s.flames++; save(); celebrate(s.streak); }
+    else toast(wasRetry ? '💪 Diesmal geschafft! +1 Punkt' : '✓ Richtig! +1 Punkt');
+  } else {
+    s.st[i]='retry'; s.streak=0;
+    toast('🔁 Kein Problem – die Aufgabe kommt zur Wiederholung');
+  }
+  save();
+  topicView();
+  const el = $('task'+i);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+let armed=false;
+function resetPage(){
+  const b=$('resetBtn');
+  if(!armed){ armed=true; b.textContent='Wirklich zurücksetzen? Nochmal tippen'; setTimeout(()=>{armed=false; if($('resetBtn')) $('resetBtn').textContent='↺ Thema zurücksetzen';},3000); return; }
+  armed=false;
+  const n=topics[current].tasks.length;
+  state[current]={st:Array(n).fill(null),tries:Array(n).fill(0),streak:0,flames:0};
+  save(); filter='all'; topicView(); toast('Thema zurückgesetzt');
+}
+
+let tt;
+function toast(msg){
+  const t=$('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function celebrate(n){
+  const b=document.createElement('div'); b.className='burst';
+  b.innerHTML=`<div class="big">🔥😂🔥</div><div class="txt">${n} richtig in Folge!</div><div class="sub">Flamme verdient – weiter so!</div>`;
+  document.body.appendChild(b); setTimeout(()=>b.remove(),2900);
+  const faces=['😂','🤣','😄','😆','😁','😃','🔥'], party=$('party');
+  for(let k=0;k<36;k++){
+    const e=document.createElement('div'); e.className='emoji';
+    e.textContent=faces[Math.floor(Math.random()*faces.length)];
+    e.style.left=(Math.random()*100)+'vw';
+    e.style.animationDuration=(2+Math.random()*2)+'s';
+    e.style.animationDelay=(Math.random()*.8)+'s';
+    party.appendChild(e); setTimeout(()=>e.remove(),5000);
+  }
+}
+
+$('back').onclick = home;
+home();
+</script>
+</body>
+</html>
