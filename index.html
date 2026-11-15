@@ -46,6 +46,8 @@
   .tcard{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center;cursor:pointer;border:none;text-align:left;color:inherit;transition:transform .15s}
   .tcard:active{transform:scale(.98)}
   .tcard .meta{flex:1;min-width:0}
+  .tcard.train{grid-column:1/-1;background:linear-gradient(135deg,var(--surface),var(--brand-soft))}
+  .ticon{width:54px;height:54px;flex:0 0 54px;border-radius:16px;display:grid;place-items:center;font-size:1.8rem;background:var(--surface)}
   .tcard h3{margin:0 0 4px;font-size:1rem;letter-spacing:-.01em}
   .tcard .sub{font-size:.82rem;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
   .tag-retry{color:var(--amber);font-weight:700}
@@ -88,6 +90,7 @@
   .state.right{background:var(--green-soft);color:var(--green)}
   .state.retry{background:var(--amber-soft);color:var(--amber)}
   .q{font-size:1.02rem}
+  .math.expr{display:block;margin-top:6px;font-size:1.15em;white-space:nowrap;overflow-x:auto;padding-bottom:2px}
   .math{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.06em}
   .btn{border:none;border-radius:14px;padding:12px 16px;font-weight:700;font-size:.95rem;cursor:pointer;transition:transform .1s,opacity .2s}
   .btn:active{transform:scale(.97)}
@@ -250,13 +253,26 @@ topics.push({
 
 
 
+
+// ---- Zusatzaufgaben (automatisch geprüft) ----
+topics[4].tasks.push(...[[1, "Vereinfache so weit wie möglich: <span class='math expr'>x² · x⁴</span>", "<span class='math'>x² · x⁴</span><br>= <span class='ans math'>x⁶</span>"], [1, "Berechne: <span class='math expr'>3⁴</span>", "<span class='math'>3⁴</span><br>= <span class='math'>3 · 3 · 3 · 3</span><br>= <span class='ans math'>81</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>y · y² · y³</span>", "<span class='math'>y · y² · y³</span><br>= <span class='math'>y¹⁺²⁺³</span><br>= <span class='ans math'>y⁶</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>2a³ · 5a⁴</span>", "<span class='math'>2a³ · 5a⁴</span><br>= <span class='math'>2 · 5 · a³ · a⁴</span><br>= <span class='ans math'>10a⁷</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>(3x)²</span>", "<span class='math'>(3x)²</span><br>= <span class='math'>3² · x²</span><br>= <span class='ans math'>9x²</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>−x² · 4x</span>", "<span class='math'>−x² · 4x</span><br>= <span class='math'>−4 · x² · x</span><br>= <span class='ans math'>−4x³</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>4a² + 3a · a − a²</span>", "<span class='math'>4a² + 3a · a − a²</span><br>= <span class='math'>4a² + 3a² − a²</span><br>= <span class='ans math'>6a²</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>(−a)³ · 2a²</span>", "<span class='math'>(−a)³ · 2a²</span><br>= <span class='math'>−a³ · 2a²</span><br>= <span class='ans math'>−2a⁵</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>5x³ − 2x · 3x² + (2x)³</span>", "<span class='math'>5x³ − 2x · 3x² + (2x)³</span><br>= <span class='math'>5x³ − 6x³ + 8x³</span><br>= <span class='ans math'>7x³</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>(xy²)² · 3x</span>", "<span class='math'>(xy²)² · 3x</span><br>= <span class='math'>x²y⁴ · 3x</span><br>= <span class='ans math'>3x³y⁴</span>"]]);
+topics[5].tasks.push(...[[1, "Vereinfache so weit wie möglich: <span class='math expr'>12b − 5b − 8b</span>", "<span class='math'>12b − 5b − 8b</span><br>= <span class='ans math'>−b</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>3x + 4y − x + y</span>", "<span class='math'>3x + 4y − x + y</span><br>= <span class='math'>3x − x + 4y + y</span><br>= <span class='ans math'>2x + 5y</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>6 + 2a − 4 + 3a</span>", "<span class='math'>6 + 2a − 4 + 3a</span><br>= <span class='math'>2a + 3a + 6 − 4</span><br>= <span class='ans math'>5a + 2</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>7a − (3a − 2)</span>", "<span class='math'>7a − (3a − 2)</span><br>= <span class='math'>7a − 3a + 2</span><br>= <span class='ans math'>4a + 2</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>2(x − 3) + 5</span>", "<span class='math'>2(x − 3) + 5</span><br>= <span class='math'>2x − 6 + 5</span><br>= <span class='ans math'>2x − 1</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>4(2y + 1) − 3(y + 2)</span>", "<span class='math'>4(2y + 1) − 3(y + 2)</span><br>= <span class='math'>8y + 4 − 3y − 6</span><br>= <span class='ans math'>5y − 2</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>−(a − b) − (b − a)</span>", "<span class='math'>−(a − b) − (b − a)</span><br>= <span class='math'>−a + b − b + a</span><br>= <span class='ans math'>0</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>10 − [3a − (2 + a)] − a</span>", "<span class='math'>10 − [3a − (2 + a)] − a</span><br>= <span class='math'>10 − [3a − 2 − a] − a</span><br>= <span class='math'>10 − [2a − 2] − a</span><br>= <span class='math'>10 − 2a + 2 − a</span><br>= <span class='ans math'>−3a + 12</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>2x(x − 3) − (x² − 6x)</span>", "<span class='math'>2x(x − 3) − (x² − 6x)</span><br>= <span class='math'>2x² − 6x − x² + 6x</span><br>= <span class='ans math'>x²</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>0,5(8m − 2) − 2(m − 0,5)</span>", "<span class='math'>0,5(8m − 2) − 2(m − 0,5)</span><br>= <span class='math'>4m − 1 − 2m + 1</span><br>= <span class='ans math'>2m</span>"]]);
+topics[6].tasks.push(...[[1, "Vereinfache so weit wie möglich: <span class='math expr'>a + a + a + a</span>", "<span class='math'>a + a + a + a</span><br>= <span class='ans math'>4a</span>"], [1, "Schreibe als Potenz: <span class='math expr'>a · a · a · a</span>", "<span class='math'>a · a · a · a</span><br>= <span class='ans math'>a⁴</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>g³ + g³ + g³</span>", "<span class='math'>g³ + g³ + g³</span><br>= <span class='ans math'>3g³</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>g⁵ · g</span>", "<span class='math'>g⁵ · g</span><br>= <span class='math'>g⁵ · g¹</span><br>= <span class='ans math'>g⁶</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>(g · h)²</span>", "<span class='math'>(g · h)²</span><br>= <span class='math'>g · h · g · h</span><br>= <span class='math'>g · g · h · h</span><br>= <span class='ans math'>g²h²</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>(g³)²</span>", "<span class='math'>(g³)²</span><br>= <span class='math'>g³ · g³</span><br>= <span class='ans math'>g⁶</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>g⁷ : g³</span>", "<span class='math'>g⁷ : g³</span><br>= <span class='math'>g⁷⁻³</span><br>= <span class='ans math'>g⁴</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>(12 + 18x) : 6</span>", "<span class='math'>(12 + 18x) : 6</span><br>= <span class='math'>12 : 6 + 18x : 6</span><br>= <span class='ans math'>2 + 3x</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>g²(g³ + 3) − 2g⁵</span>", "<span class='math'>g²(g³ + 3) − 2g⁵</span><br>= <span class='math'>g⁵ + 3g² − 2g⁵</span><br>= <span class='ans math'>−g⁵ + 3g²</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>(20a² − 15a) : 5 + a(2 − a)</span>", "<span class='math'>(20a² − 15a) : 5 + a(2 − a)</span><br>= <span class='math'>4a² − 3a + 2a − a²</span><br>= <span class='ans math'>3a² − a</span>"]]);
+topics.push({title:"8. Termumformungen – Vereinfachen", merke:"<b>So gehst du vor:</b> 1. Klammern auflösen (DG – bei Minus vor der Klammer alle Vorzeichen umdrehen, verschachtelte Klammern von innen nach außen). 2. Produkte vereinfachen (Zahlen mal Zahlen, Potenzen: Exponenten addieren). 3. Gleichartige Glieder zusammenfassen. 4. Ordnen: höchste Potenz zuerst.", tasks:[[1, "Vereinfache so weit wie möglich: <span class='math expr'>4x + 7x − 3x</span>", "<span class='math'>4x + 7x − 3x</span><br>= <span class='ans math'>8x</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>5a + 3 − 2a + 6</span>", "<span class='math'>5a + 3 − 2a + 6</span><br>= <span class='math'>5a − 2a + 3 + 6</span><br>= <span class='ans math'>3a + 9</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>6m − 2n + m + 5n</span>", "<span class='math'>6m − 2n + m + 5n</span><br>= <span class='math'>6m + m − 2n + 5n</span><br>= <span class='ans math'>7m + 3n</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>3 · a · 5</span>", "<span class='math'>3 · a · 5</span><br>= <span class='math'>3 · 5 · a</span><br>= <span class='ans math'>15a</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>2x · 4y</span>", "<span class='math'>2x · 4y</span><br>= <span class='math'>2 · 4 · x · y</span><br>= <span class='ans math'>8xy</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>9y − 4 − 10y + 7</span>", "<span class='math'>9y − 4 − 10y + 7</span><br>= <span class='math'>9y − 10y − 4 + 7</span><br>= <span class='ans math'>−y + 3</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>0,5a + 1,5b − 0,2a + b</span>", "<span class='math'>0,5a + 1,5b − 0,2a + b</span><br>= <span class='math'>0,5a − 0,2a + 1,5b + b</span><br>= <span class='ans math'>0,3a + 2,5b</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>a · a + 3a − a</span>", "<span class='math'>a · a + 3a − a</span><br>= <span class='math'>a² + 3a − a</span><br>= <span class='ans math'>a² + 2a</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>7xy − 2x + 3yx + 5x</span>", "<span class='math'>7xy − 2x + 3yx + 5x</span><br>= <span class='math'>7xy + 3xy − 2x + 5x</span><br>= <span class='ans math'>10xy + 3x</span>"], [1, "Vereinfache so weit wie möglich: <span class='math expr'>4 · (−2b) + 3b</span>", "<span class='math'>4 · (−2b) + 3b</span><br>= <span class='math'>−8b + 3b</span><br>= <span class='ans math'>−5b</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>3(x + 4) + 2x</span>", "<span class='math'>3(x + 4) + 2x</span><br>= <span class='math'>3x + 12 + 2x</span><br>= <span class='ans math'>5x + 12</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>5a − (2a + 7)</span>", "<span class='math'>5a − (2a + 7)</span><br>= <span class='math'>5a − 2a − 7</span><br>= <span class='ans math'>3a − 7</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>4 − (3 − x) + 2x</span>", "<span class='math'>4 − (3 − x) + 2x</span><br>= <span class='math'>4 − 3 + x + 2x</span><br>= <span class='ans math'>3x + 1</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>2(3a − b) + 4(b − a)</span>", "<span class='math'>2(3a − b) + 4(b − a)</span><br>= <span class='math'>6a − 2b + 4b − 4a</span><br>= <span class='ans math'>2a + 2b</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>−2(5 − y) − 3y</span>", "<span class='math'>−2(5 − y) − 3y</span><br>= <span class='math'>−10 + 2y − 3y</span><br>= <span class='ans math'>−y − 10</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>3x · 2x − 4x²</span>", "<span class='math'>3x · 2x − 4x²</span><br>= <span class='math'>6x² − 4x²</span><br>= <span class='ans math'>2x²</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>a² + 3a − 2a² + a − 5</span>", "<span class='math'>a² + 3a − 2a² + a − 5</span><br>= <span class='math'>a² − 2a² + 3a + a − 5</span><br>= <span class='ans math'>−a² + 4a − 5</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>6(2m − 1) − (m + 4)</span>", "<span class='math'>6(2m − 1) − (m + 4)</span><br>= <span class='math'>12m − 6 − m − 4</span><br>= <span class='ans math'>11m − 10</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>2a · 3b − ab + 4b · a</span>", "<span class='math'>2a · 3b − ab + 4b · a</span><br>= <span class='math'>6ab − ab + 4ab</span><br>= <span class='ans math'>9ab</span>"], [2, "Vereinfache so weit wie möglich: <span class='math expr'>x(x + 2) − 3x</span>", "<span class='math'>x(x + 2) − 3x</span><br>= <span class='math'>x² + 2x − 3x</span><br>= <span class='ans math'>x² − x</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>2x(3x − 4) − x(x + 5)</span>", "<span class='math'>2x(3x − 4) − x(x + 5)</span><br>= <span class='math'>6x² − 8x − x² − 5x</span><br>= <span class='ans math'>5x² − 13x</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>3a²(2a − 1) + a(a − 4a²)</span>", "<span class='math'>3a²(2a − 1) + a(a − 4a²)</span><br>= <span class='math'>6a³ − 3a² + a² − 4a³</span><br>= <span class='ans math'>2a³ − 2a²</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>5 − [2x − (4 − 3x)]</span>", "<span class='math'>5 − [2x − (4 − 3x)]</span><br>= <span class='math'>5 − [2x − 4 + 3x]</span><br>= <span class='math'>5 − [5x − 4]</span><br>= <span class='math'>5 − 5x + 4</span><br>= <span class='ans math'>−5x + 9</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>−(x² − 2x) − 2(x − x²) + 3</span>", "<span class='math'>−(x² − 2x) − 2(x − x²) + 3</span><br>= <span class='math'>−x² + 2x − 2x + 2x² + 3</span><br>= <span class='ans math'>x² + 3</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>4ab − 2a(3b − a) + b(a − 2b)</span>", "<span class='math'>4ab − 2a(3b − a) + b(a − 2b)</span><br>= <span class='math'>4ab − 6ab + 2a² + ab − 2b²</span><br>= <span class='ans math'>2a² − ab − 2b²</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>(2x)² − 3x · x + x(2 − x)</span>", "<span class='math'>(2x)² − 3x · x + x(2 − x)</span><br>= <span class='math'>4x² − 3x² + 2x − x²</span><br>= <span class='ans math'>2x</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>½(6a − 4) − ⅓(3a + 9)</span>", "<span class='math'>½(6a − 4) − ⅓(3a + 9)</span><br>= <span class='math'>3a − 2 − (a + 3)</span><br>= <span class='math'>3a − 2 − a − 3</span><br>= <span class='ans math'>2a − 5</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>2y² · 3y − y(4y² − y) − 2y³</span>", "<span class='math'>2y² · 3y − y(4y² − y) − 2y³</span><br>= <span class='math'>6y³ − 4y³ + y² − 2y³</span><br>= <span class='ans math'>y²</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>3x − {2x − [x − (5 − x)]}</span>", "<span class='math'>3x − {2x − [x − (5 − x)]}</span><br>= <span class='math'>3x − {2x − [x − 5 + x]}</span><br>= <span class='math'>3x − {2x − [2x − 5]}</span><br>= <span class='math'>3x − {2x − 2x + 5}</span><br>= <span class='ans math'>3x − 5</span>"], [3, "Vereinfache so weit wie möglich: <span class='math expr'>2a(a + b) − 3b(a − b) − (2a² − 3b²)</span>", "<span class='math'>2a(a + b) − 3b(a − b) − (2a² − 3b²)</span><br>= <span class='math'>2a² + 2ab − 3ab + 3b² − 2a² + 3b²</span><br>= <span class='ans math'>−ab + 6b²</span>"]]});
+
 const LV = {1:"Grundlagen",2:"Fortgeschritten",3:"Profi"};
 const KEY = "termeTrainer_v3";
 // Status je Aufgabe: null = offen, "right" = richtig, "retry" = falsch → muss wiederholt werden
 let state;
 const fresh = () => topics.map(t => ({st:t.tasks.map(()=>null), tries:t.tasks.map(()=>0), streak:0, flames:0}));
 try { state = JSON.parse(localStorage.getItem(KEY)); } catch(e){ state = null; }
-if(!Array.isArray(state) || state.length !== topics.length) state = fresh();
+if(!Array.isArray(state)) state = fresh();
+// Migration: neue Aufgaben/Themen ergänzen, ohne alten Fortschritt zu löschen
+topics.forEach((t,i)=>{
+  if(!state[i]) state[i] = {st:[], tries:[], streak:0, flames:0};
+  while(state[i].st.length < t.tasks.length){ state[i].st.push(null); state[i].tries.push(0); }
+});
+state.length = topics.length;
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} };
 
 const $ = id => document.getElementById(id);
@@ -266,8 +282,8 @@ const pts = i => state[i].st.filter(x => x==="right").length;
 const retries = i => state[i].st.filter(x => x==="retry").length;
 
 function bar(){
-  $('barPts').textContent = "⭐ " + state.reduce((s,_,i)=>s+pts(i),0);
-  $('barFl').textContent = "🔥 " + state.reduce((s,x)=>s+x.flames,0);
+  $('barPts').textContent = "⭐ " + (state.reduce((s,_,i)=>s+pts(i),0) + tr.pts);
+  $('barFl').textContent = "🔥 " + (state.reduce((s,x)=>s+x.flames,0) + tr.flames);
 }
 
 function ring(p, color){
@@ -282,12 +298,18 @@ function home(){
   $('back').classList.add('hidden');
   $('title').textContent = "TermeTrainer";
   const total = topics.reduce((s,t)=>s+t.tasks.length,0);
-  const tp = state.reduce((s,_,i)=>s+pts(i),0), tf = state.reduce((s,x)=>s+x.flames,0), tr = state.reduce((s,_,i)=>s+retries(i),0);
+  const tp = state.reduce((s,_,i)=>s+pts(i),0), tf = state.reduce((s,x)=>s+x.flames,0), trs = state.reduce((s,_,i)=>s+retries(i),0);
   let h = `<div class="hero"><small>1. Schulaufgabe · 20.11.26</small><h2>Terme meistern 💪</h2>
     <p>Rechnen, Lösung checken, ehrlich bewerten. Falsche Aufgaben kommen zur Wiederholung zurück.</p>
     <div class="stats"><div class="stat"><b>${tp}/${total}</b><span>Punkte</span></div>
     <div class="stat"><b>🔥 ${tf}</b><span>Flammen</span></div>
-    <div class="stat"><b>🔁 ${tr}</b><span>Wiederholen</span></div></div></div>
+    <div class="stat"><b>🔁 ${trs + tr.queue.length}</b><span>Wiederholen</span></div></div></div>
+    <div class="section-label">Endlos üben</div>
+    <div class="grid" style="margin-bottom:18px"><button class="tcard train" onclick="openTraining()">
+      <div class="ticon">🎲</div>
+      <div class="meta"><h3>Endlos-Training: Terme vereinfachen</h3>
+        <div class="sub"><span>Unendlich viele Zufallsaufgaben</span><span>⭐ ${tr.pts}</span>${tr.flames?`<span>🔥 ${tr.flames}</span>`:''}${tr.queue.length?`<span class="tag-retry">🔁 ${tr.queue.length}</span>`:''}</div></div>
+      <span style="color:var(--muted);font-size:1.4rem">›</span></button></div>
     <div class="section-label">Themen</div><div class="grid">`;
   topics.forEach((t,i)=>{
     const p = pts(i)/t.tasks.length, r = retries(i);
@@ -333,7 +355,8 @@ function topicView(){
       <button class="chip ${filter==='right'?'active':''}" onclick="setFilter('right')">✓ Geschafft (${pts(current)})</button>
     </div><div class="list">`;
   let last = 0, shown = 0;
-  t.tasks.forEach(([lvl,q,sol],i)=>{
+  const order = t.tasks.map((_,i)=>i).sort((a,b)=>t.tasks[a][0]-t.tasks[b][0] || a-b);
+  order.forEach((i,pos)=>{ const [lvl,q,sol] = t.tasks[i];
     const st = s.st[i];
     if(filter==='open' && st!==null) return;
     if(filter==='retry' && st!=='retry') return;
@@ -342,7 +365,7 @@ function topicView(){
     if(lvl!==last){ h += `<div class="lvl"><span class="dot d${lvl}"></span>Stufe ${lvl} · ${LV[lvl]}</div>`; last=lvl; }
     const badge = st==='right' ? `<span class="state right">✓ +1</span>` : st==='retry' ? `<span class="state retry">🔁 Wiederholen</span>` : '';
     h += `<div class="task ${st||''}" id="task${i}">
-      <div class="task-head"><span class="tnum">AUFGABE ${i+1}</span><span class="lvlbadge lb${lvl}">${LV[lvl]}</span>${badge}</div>
+      <div class="task-head"><span class="tnum">AUFGABE ${pos+1}</span><span class="lvlbadge lb${lvl}">${LV[lvl]}</span>${badge}</div>
       <div class="q">${q}</div>
       ${st==='retry' ? `<div class="retrynote">Beim letzten Mal falsch (${s.tries[i]}×). Rechne die Aufgabe noch einmal ohne zu spicken!</div>` : ''}
       <button class="btn ${st==='right'?'ghost':'primary'}" id="btn${i}" onclick="toggle(${i})">Lösung zeigen</button>
@@ -416,6 +439,189 @@ function celebrate(n){
     e.style.animationDelay=(Math.random()*.8)+'s';
     party.appendChild(e); setTimeout(()=>e.remove(),5000);
   }
+}
+
+/* ================= Endlos-Training: Zufallsaufgaben „Vereinfache“ ================= */
+const SUPC = {0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
+const sup = n => String(n).split('').map(d=>SUPC[d]).join('');
+const rnd = (a,b) => a + Math.floor(Math.random()*(b-a+1));
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+const nz = (a,b) => { let x; do { x = rnd(a,b); } while(x===0); return x; };
+const VARS = [['a','b'],['x','y'],['m','n'],['p','q'],['r','s']];
+
+// Monom: {c: Zahl, v: {x:2, y:1}}
+const M = (c, v={}) => ({c, v:{...v}});
+const mkey = v => Object.keys(v).filter(k=>v[k]).sort().map(k=>k+v[k]).join('');
+const deg = v => Object.values(v).reduce((s,e)=>s+e,0);
+const mmul = (a,b) => { const v={...a.v}; for(const k in b.v) v[k]=(v[k]||0)+b.v[k]; return M(a.c*b.c, v); };
+const vstr = v => Object.keys(v).filter(k=>v[k]).sort().map(k=>k+(v[k]>1?sup(v[k]):'')).join('');
+function body(m){ const a=Math.abs(m.c), vs=vstr(m.v); return (a===1 && vs) ? vs : a+vs; }
+function sum(list){ // Liste von Monomen als Summe schreiben
+  if(!list.length) return '0';
+  return list.map((m,i)=> i===0 ? (m.c<0?'−':'')+body(m) : (m.c<0?' − ':' + ')+body(m)).join('');
+}
+function combine(list){
+  const map = new Map();
+  list.forEach(m=>{ const k=mkey(m.v); if(map.has(k)) map.get(k).c += m.c; else map.set(k, M(m.c,m.v)); });
+  return [...map.values()].filter(m=>m.c!==0).sort((a,b)=>deg(b.v)-deg(a.v) || Math.max(0,...Object.values(b.v))-Math.max(0,...Object.values(a.v)) || mkey(a.v).localeCompare(mkey(b.v)));
+}
+// nach Art sortieren (gleichartige nebeneinander), Reihenfolge des ersten Auftretens
+function groupLike(list){
+  const keys=[]; list.forEach(m=>{const k=mkey(m.v); if(!keys.includes(k)) keys.push(k);}); keys.sort((a,b)=>(a==='')-(b===''));
+  return keys.flatMap(k=>list.filter(m=>mkey(m.v)===k));
+}
+const fmtFactor = m => m.c<0 ? '('+sum([m])+')' : sum([m]);
+const span = s => `<span class='math'>${s}</span>`;
+
+/* Summand-Typen:
+   {t:'m', m}                       → einzelnes Monom
+   {t:'k', sign, f, br:[monome]}    → sign · f · (Klammer)   (f.c>0; f.c=1 ohne Variable → nur ±(…))
+*/
+function summandStr(s, first){
+  if(s.t==='m') return first ? sum([s.m]) : (s.m.c<0?' − ':' + ')+body(s.m);
+  const plainF = s.f.c===1 && !vstr(s.f.v);
+  const fpart = plainF ? '(' + sum(s.br) + ')' : sum([s.f]) + ' · (' + sum(s.br) + ')';
+  if(first) return (s.sign<0?'−':'') + fpart;
+  return (s.sign<0?' − ':' + ') + fpart;
+}
+const exprStr = list => list.map((s,i)=>summandStr(s,i===0)).join('');
+function expand(list){
+  const out=[];
+  list.forEach(s=>{
+    if(s.t==='m') out.push(s.m);
+    else s.br.forEach(b=>{ const p=mmul(s.f,b); p.c*=s.sign; out.push(p); });
+  });
+  return out;
+}
+
+function makeTask(level){
+  const [u,w] = pick(VARS);
+  let q, steps=[], res, tries=0;
+  while(tries++<50){
+    steps=[];
+    const kind = level===1 ? pick(['sum','sum','prod']) : level===2 ? pick(['br','br','minus','pow']) : pick(['dg','dg','nest','sq']);
+    if(kind==='sum'){ // gleichartige Glieder
+      const pool=[M(1,{[u]:1}),M(1,{[w]:1}),M(1)];
+      const n=rnd(4,6), list=[];
+      for(let i=0;i<n;i++){ const b=pick(pool); list.push(M(nz(-9,9)*(i===0?1:1), b.v)); }
+      if(list[0].c<0 && Math.random()<.6) list[0].c*=-1;
+      const kinds=new Set(list.map(m=>mkey(m.v))); if(kinds.size<2) continue;
+      res=combine(list); if(!res.length) continue;
+      q=sum(list); const g=groupLike(list); if(sum(g)!==q) steps.push(sum(g));
+    }
+    else if(kind==='prod'){ // Produkt aus Zahlen und Variablen
+      const c1=rnd(2,9), c2=rnd(2,9), withW=Math.random()<.6;
+      const parts=[String(c1), u, String(c2)]; if(withW) parts.push(w);
+      if(Math.random()<.4) parts.push(u);
+      const shuffled = parts.slice().sort(()=>Math.random()-.5);
+      q=shuffled.join(' · ');
+      const nums=shuffled.filter(p=>/\d/.test(p)), vs=shuffled.filter(p=>!/\d/.test(p)).sort();
+      steps.push(nums.concat(vs).join(' · '));
+      const v={}; vs.forEach(x=>v[x]=(v[x]||0)+1);
+      res=[M(c1*c2,v)];
+    }
+    else if(kind==='br' || kind==='minus'){ // k·(…) ± m·(…)
+      const lin = () => [M(nz(-6,6)*(Math.random()<.7?1:1),{[u]:1}), M(nz(-9,9), Math.random()<.3?{[w]:1}:{})];
+      const b1=lin(); if(b1[0].c<0) b1[0].c*=-1;
+      const s1={t:'k',sign:1,f:M(rnd(2,6)),br:b1};
+      const s2= kind==='minus' ? {t:'k',sign:-1,f:M(1),br:lin().map((m,i)=>{ if(i===0&&m.c<0) m.c*=-1; return m; })}
+                               : {t:'k',sign:pick([1,-1]),f:M(rnd(2,5)),br:lin().map((m,i)=>{ if(i===0&&m.c<0) m.c*=-1; return m; })};
+      const list=[s1,s2]; if(Math.random()<.5) list.push({t:'m',m:M(nz(-7,7),{[u]:1})});
+      const ex=expand(list); res=combine(ex); if(!res.length) continue;
+      q=exprStr(list); steps.push(sum(ex));
+    }
+    else if(kind==='pow'){ // Produkte mit Potenzen + Zusammenfassen
+      const e1=rnd(1,3), e2=rnd(1,3), c1=nz(-5,5), c2=rnd(2,6), c3=nz(-9,9);
+      const p1=M(c1,{[u]:e1}), p2=M(c2,{[u]:e2});
+      const prod=mmul(p1,p2), other=M(c3,{[u]:e1+e2});
+      q = fmtFactor(p1)+' · '+fmtFactor(p2) + (other.c<0?' − ':' + ') + body(other);
+      steps.push(sum([prod,other])); res=combine([prod,other]); if(!res.length) continue;
+    }
+    else if(kind==='dg'){ // Monom mit Potenz · Klammer ± Monom · Klammer
+      const f1=M(rnd(1,4),{[u]:rnd(1,2)}), f2=M(rnd(1,3),{[u]:1});
+      const br1=[M(rnd(1,5),{[u]:rnd(1,2)}), M(nz(-6,6))];
+      const br2=[M(rnd(1,4),{[u]:rnd(1,2)}), M(nz(-6,6), Math.random()<.4?{[w]:1}:{[u]:0})];
+      const list=[{t:'k',sign:1,f:f1,br:br1},{t:'k',sign:pick([1,-1]),f:f2,br:br2}];
+      if(Math.random()<.5) list.push({t:'m',m:M(nz(-5,5),{[u]:2})});
+      const ex=expand(list); res=combine(ex); if(!res.length || res.length===ex.length) continue;
+      q=exprStr(list); steps.push(sum(ex));
+    }
+    else if(kind==='nest'){ // k − [a·u − (b − c·u)] + d·u
+      const k=rnd(2,12), a=rnd(2,7), b=rnd(1,9), c=rnd(1,6), d=nz(-5,5);
+      q = `${k} − [${a===1?'':a}${u} − (${b} − ${c===1?'':c}${u})]` + (d<0?' − ':' + ') + (Math.abs(d)===1?'':Math.abs(d)) + u;
+      const tail=(d<0?' − ':' + ')+(Math.abs(d)===1?'':Math.abs(d))+u;
+      steps.push(`${k} − [${a===1?'':a}${u} − ${b} + ${c===1?'':c}${u}]`+tail);
+      const inner=combine([M(a+c,{[u]:1}),M(-b)]);
+      steps.push(`${k} − [${sum(inner)}]`+tail);
+      const opened=[M(k), ...inner.map(m=>M(-m.c,m.v)), M(d,{[u]:1})];
+      steps.push(sum(opened));
+      res=combine(opened); if(!res.length) continue;
+    }
+    else if(kind==='sq'){ // (c·u)² ± u·(…) …
+      const c=rnd(2,4), sgn=pick([1,-1]);
+      const br=[M(rnd(1,5),{[u]:1}), M(nz(-6,6))];
+      const sq=M(c*c,{[u]:2});
+      const list=[{t:'k',sign:sgn,f:M(1,{[u]:1}),br}];
+      const ex=[sq, ...expand(list)]; const extra=M(nz(-6,6),{[u]:1}); ex.push(extra);
+      q = `(${c}${u})²` + exprStr(list).replace(/^(?!−)/,' + ').replace(/^−/,' − ') + (extra.c<0?' − ':' + ') + body(extra);
+      steps.push(sum(ex)); res=combine(ex); if(!res.length) continue;
+    }
+    const r=sum(res); if(steps.length && steps[steps.length-1]===r) steps.pop();
+    return {level, q, steps, ans:r};
+  }
+  return {level, q:'3a + 4a', steps:[], ans:'7a'};
+}
+
+/* ---- Trainings-Zustand ---- */
+const TKEY="termeTrainer_training_v1";
+let tr; try{ tr=JSON.parse(localStorage.getItem(TKEY)); }catch(e){ tr=null; }
+if(!tr || typeof tr!=='object') tr={pts:0, done:0, streak:0, flames:0, level:1, queue:[]};
+const tsave=()=>{ try{ localStorage.setItem(TKEY, JSON.stringify(tr)); }catch(e){} };
+let cur=null, sinceRetry=0;
+
+function nextTask(){
+  // Falsche Aufgaben kommen nach 2 neuen Aufgaben wieder
+  if(tr.queue.length && sinceRetry>=2){ cur={...tr.queue.shift(), retry:true}; sinceRetry=0; }
+  else { cur=makeTask(tr.level); sinceRetry++; }
+  tsave(); trainView();
+}
+function setLevel(l){ tr.level=l; tsave(); nextTask(); }
+function openTraining(){ current=null; if(!cur) nextTask(); else trainView(); window.scrollTo({top:0}); }
+
+function trainView(){
+  $('back').classList.remove('hidden');
+  $('title').textContent = "Endlos-Training";
+  const k=tr.streak%5, segs=[0,1,2,3,4].map(j=>`<div class="seg ${j<k?'on':''}"></div>`).join('');
+  const sol = [span(cur.q)].concat(cur.steps.map(s=>'= '+span(s))).concat([`= <span class='ans math'>${cur.ans}</span>`]).join('<br>');
+  $('view').innerHTML = `<div class="topic-top"><div class="scorecard">
+      <div class="kpis"><div class="kpi"><b>⭐ ${tr.pts}</b><span>Punkte</span></div>
+      <div class="kpi"><b>${tr.streak}</b><span>in Folge</span></div>
+      <div class="kpi"><b>🔥 ${tr.flames}</b><span>Flammen</span></div>
+      <div class="kpi"><b>🔁 ${tr.queue.length}</b><span>Wiederholen</span></div></div>
+      <div class="streakbar">${segs}<span class="fl">🔥</span></div>
+      <div class="streakhint">Unendlich viele Zufallsaufgaben zum Vereinfachen. Falsche kommen nach 2 Aufgaben zurück.</div></div></div>
+    <div class="chips">
+      ${[1,2,3].map(l=>`<button class="chip ${tr.level===l?'active':''}" onclick="setLevel(${l})"><span class="dot d${l}" style="display:inline-block;margin-right:6px"></span>Stufe ${l}</button>`).join('')}
+    </div>
+    <div class="list"><div class="task ${cur.retry?'retry':''}" id="ttask">
+      <div class="task-head"><span class="tnum">ZUFALLSAUFGABE</span><span class="lvlbadge lb${cur.level}">${LV[cur.level]}</span>${cur.retry?'<span class="state retry">🔁 Wiederholung</span>':''}</div>
+      <div class="q">Vereinfache so weit wie möglich: <span class='math expr'>${cur.q}</span></div>
+      ${cur.retry?'<div class="retrynote">Diese Aufgabe war beim letzten Mal falsch. Rechne sie noch einmal ohne zu spicken!</div>':''}
+      <button class="btn primary" id="tbtn" onclick="ttoggle()">Lösung zeigen</button>
+      <div class="sol" id="tsol"><b>Lösung</b><br>${sol}
+        <div class="rate"><p>Hattest du es richtig?</p><div class="row">
+          <button class="btn ok" onclick="trate(true)">✓ Richtig</button>
+          <button class="btn no" onclick="trate(false)">✗ Falsch</button></div></div></div>
+    </div>
+    <button class="btn ghost" onclick="nextTask()">Überspringen → neue Aufgabe</button></div>`;
+  bar();
+}
+function ttoggle(){ const s=$('tsol'), b=$('tbtn'), show=!s.classList.contains('show'); s.classList.toggle('show',show); b.textContent=show?'Lösung verbergen':'Lösung zeigen'; }
+function trate(ok){
+  tr.done++;
+  if(ok){ tr.pts++; tr.streak++; if(tr.streak%5===0){ tr.flames++; celebrate(tr.streak); } else toast(cur.retry?'💪 Diesmal geschafft! +1 Punkt':'✓ Richtig! +1 Punkt'); }
+  else { tr.streak=0; const {level,q,steps,ans}=cur; tr.queue.push({level,q,steps,ans}); sinceRetry=0; toast('🔁 Die Aufgabe kommt gleich nochmal'); }
+  tsave(); nextTask(); window.scrollTo({top:0,behavior:'smooth'});
 }
 
 $('back').onclick = home;
